@@ -1,5 +1,29 @@
 #!/bin/bash
 
+# Eğer hiçbir seçenek verilmediyse, yardım mesajını göster
+if [[ $# -eq 0 ]]; then
+  echo "$help_message"
+  exit 0
+fi
+
+# SOX kurulu mu kontrol et, değilse sessizce kur
+if ! command -v sox >/dev/null 2>&1; then
+  echo "sox bulunamadı, yükleniyor..."
+  if [ -f /etc/debian_version ]; then
+    sudo apt-get update -qq >/dev/null 2>&1 && sudo apt-get install -y sox >/dev/null 2>&1
+  elif [ -f /etc/redhat-release ]; then
+    sudo dnf install -y sox >/dev/null 2>&1
+  elif command -v pacman >/dev/null 2>&1; then
+    sudo pacman -Sy --noconfirm sox >/dev/null 2>&1
+  elif [ "$(uname)" = "Darwin" ]; then
+    brew install sox >/dev/null 2>&1
+  else
+    echo "sox yüklenemedi: bilinmeyen sistem." >/dev/null
+    exit 1
+  fi
+fi
+
+
 # Versiyon ve yardım mesajları
 version="1.0"
 help_message="Usage: ./morse.sh [options]
@@ -395,8 +419,3 @@ while [[ $# -gt 0 ]]; do
   esac
   shift
 done
-# Eğer hiçbir seçenek verilmediyse, yardım mesajını göster
-if [[ $# -eq 0 ]]; then
-  echo "$help_message"
-  exit 0
-fi
