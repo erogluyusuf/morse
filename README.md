@@ -21,6 +21,11 @@ A Bash-based Morse code converter and audio generator. It can convert text to Mo
 
 ## 🚀 Kullanım / Usage
 
+### Yetkilendirme
+```
+chmod +x morse.sh
+```
+
 ### Yardım / Help
 ```bash
   -h, --help              Show this help message
