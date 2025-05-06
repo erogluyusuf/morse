@@ -395,3 +395,8 @@ while [[ $# -gt 0 ]]; do
   esac
   shift
 done
+# Eğer hiçbir seçenek verilmediyse, yardım mesajını göster
+if [[ $# -eq 0 ]]; then
+  echo "$help_message"
+  exit 0
+fi
